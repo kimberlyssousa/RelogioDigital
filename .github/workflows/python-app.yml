@@ -1,39 +1,20 @@
-# This workflow will install Python dependencies, run tests and lint with a single version of Python
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+from tkinter import *
+from tkinter.ttk import *
 
-name: Python application
+from time import strftime
 
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+main = Tk()
 
-permissions:
-  contents: read
+main.title('Relógio Digital in Python')
 
-jobs:
-  build:
+def clock ():
+    tick = strftime('%H:%M:%S %p')
+    clock_label .config(text = tick)
+    clock_label .after(1000, clock)
 
-    runs-on: ubuntu-latest
+clock_label = Label(main, font =('sans', 80), background = 'white', foreground = 'green')
 
-    steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v3
-      with:
-        python-version: "3.10"
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install flake8 pytest
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Lint with flake8
-      run: |
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Test with pytest
-      run: |
-        pytest
+clock_label.pack(anchor= 'center')
+
+clock()
+mainloop()
